@@ -5,13 +5,24 @@
   width: 100vw;
   background-repeat: no-repeat;
   background-size: cover;
-  /* height: 100vh; */
+  height: 100vh;
 }
 
-.main-body {
+.data-body {
   margin: 2em;
   display: flex;
   justify-content: space-evenly;
+  max-height: auto;
+  overflow-y: scroll;
+}
+
+.dash-elem {
   background-color: rgba(92, 92, 92, 0.486);
   border-radius: 15px;
+}
+
+.stats-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }

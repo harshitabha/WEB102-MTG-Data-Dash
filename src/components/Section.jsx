@@ -9,7 +9,7 @@ const Section = (props) => {
             <hr />
             <ul>
                 {props.content.map(item => {
-                   return <li key="" className="table-elem">{item ? item : "N/A"}</li>
+                   return <li key={`${props.keyInfo}-`} className="table-elem">{item ? item : "N/A"}</li>
                 })}
             </ul>
         </div>
