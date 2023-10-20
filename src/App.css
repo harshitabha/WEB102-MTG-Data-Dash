@@ -3,5 +3,15 @@
   background-color: rgba(29, 29, 29, 0.486);
   background-blend-mode: overlay;
   width: 100vw;
-  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* height: 100vh; */
+}
+
+.main-body {
+  margin: 2em;
+  display: flex;
+  justify-content: space-evenly;
+  background-color: rgba(92, 92, 92, 0.486);
+  border-radius: 15px;
 }
