@@ -60,6 +60,10 @@ const App = () => {
           info={calcCards('Enchantment')}/>
       </div>
 
+      <div className="fliter-container">
+        
+      </div>
+
       <div className="data-body dash-elem">
         <Section 
           header="Name"
