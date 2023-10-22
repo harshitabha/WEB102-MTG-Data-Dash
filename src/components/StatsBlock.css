@@ -1,3 +1,13 @@
 .stats-body {
-    padding: 20px;
+    padding: 10px;
+    text-align: center;
+}
+
+.stats-text {
+    font-weight: bold;
+}
+
+.text {
+    margin: 5px;
+    font-size: 20px;
 }

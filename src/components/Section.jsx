@@ -8,9 +8,9 @@ const Section = (props) => {
             <h2 className="section-header">{props.header}</h2>
             <hr />
             <ul>
-                {props.content.map(item => {
-                   return <li key={`${props.keyInfo}-`} className="table-elem">{item ? item : "N/A"}</li>
-                })}
+                {props.content ? props.content.map((item, index) => {
+                   return <li key={`${props.keyInfo}-${index}`} className="table-elem">{item ? item : "N/A"}</li>
+                }) : null}
             </ul>
         </div>
     );
