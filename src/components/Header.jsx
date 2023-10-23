@@ -14,6 +14,7 @@ const Header = (props) => {
                     className="search" 
                     placeholder="Search..."
                     value={props.searchVal} 
+                    name="search"
                     onChange={(e) => {props.change(e)}}/>
                 <FontAwesomeIcon icon={faMagnifyingGlass} className='searchIcon'/>
             </div>

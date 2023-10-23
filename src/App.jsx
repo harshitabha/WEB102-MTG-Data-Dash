@@ -4,19 +4,29 @@ import "./App.css";
 import Header from "./components/Header";
 import Section from "./components/Section";
 import StatsBlock from "./components/StatsBlock";
+import BubbleSelect from "./components/BubbleSelect";
 
 const App = () => {
   const [cardsInfo, setCards] = useState(null);
   const [filter, setFilter] = useState({
     search: '',
+    cardType: 'All',
     power: 0,
     tough: 0,
   });
+
+  const [activeIndex, setActiveIndex] = useState({
+    pow: 0,
+    tough: 0,
+  })
+
   const originalCards = useRef(null);
+
+  const bubbleOptions = ["Any", "1", "2", "3", "4", "5+"];
 
   useEffect(() => {
     const getNewCards = async () => {
-      const apiURL = "https://api.magicthegathering.io/v1/cards?limit=25";
+      const apiURL = "https://api.magicthegathering.io/v1/cards?pageSize=50&random=true";
       const response = await fetch(apiURL);
       const json = await response.json();
       const cards = json.cards;
@@ -40,11 +50,30 @@ const App = () => {
     return total;
   }
 
-  const handleSearch = (e) => {
-    setFilter((prevState) => ({
-      ...prevState,
-      search: e.target.value.trim().toLowerCase(),
-    }));
+  const handleFilterChange = (e) => {
+    if (e.target.name === "selectType") {
+      setFilter((prevState) => ({
+        ...prevState,
+        cardType: e.target.value,
+      }));
+    } else if (e.target.name === 'search') {
+      setFilter((prevState) => ({
+        ...prevState,
+        search: e.target.value.trim().toLowerCase(),
+      }));
+    } else {
+      // update the active index if a select filter was clicked
+      const name = e.target.name;
+      const start = name.indexOf("-") + 1;
+      const end = name.indexOf("-", start);
+      const type = name.substring(start, end);
+      setFilter((prevState) => ({
+        ...prevState,
+        [type]: name.slice(-1),
+      }));
+    }
+
+    updateCardsDisplay();
     const filterSearch = filter.search.length !== 0 ? 
       originalCards.current.filter((card) => card.name.toLowerCase().indexOf(filter.search) !== -1) :
       originalCards.current;
@@ -52,13 +81,17 @@ const App = () => {
         ...prevJson,
         cards: filterSearch
       }))
+
   }
+  const updateCardsDisplay = () => {
+  }
+  console.log(filter);
 
 
   return (
     <>
       <Header 
-        change={handleSearch}
+        change={handleFilterChange}
         searchVal={filter.search}/>
 
       <div className="stats-container">
@@ -76,8 +109,33 @@ const App = () => {
           info={calcCards('Enchantment')}/>
       </div>
 
-      <div className="fliter-container">
-
+      <div className="filter-container dash-elem">
+        <div className="select-container filter">
+          <label htmlFor="selectType" className="filter-label">Card Type</label>
+          <br />
+          <select name="selectType" id="selectType" onChange={(e) => {handleFilterChange(e)}}>
+            <option defaultValue={"all"} className="select-option">All</option>
+            <option value="creature" className="select-option">Creature</option>
+            <option value="sorcery" className="select-option">Sorcery</option>
+            <option value="echantment" className="select-option">Enchantment</option>
+          </select>
+        </div>
+        
+        <BubbleSelect 
+          label="Minimum Power"
+          options={bubbleOptions}
+          type="power"
+          active={activeIndex.pow}
+          handleClick={handleFilterChange}
+          classes="filter"/>
+        
+        <BubbleSelect 
+          label="Minimum Toughness"
+          options={bubbleOptions}
+          type="tough"
+          active={activeIndex.tough}
+          handleClick={handleFilterChange}
+          classes="filter"/>
       </div>
 
       <div className="data-body dash-elem">
