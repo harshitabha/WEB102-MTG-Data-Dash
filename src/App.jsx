@@ -15,30 +15,26 @@ const App = () => {
     tough: 0,
   });
 
-  const [activeIndex, setActiveIndex] = useState({
-    pow: 0,
-    tough: 0,
-  })
-
   const originalCards = useRef(null);
 
   const bubbleOptions = ["Any", "1", "2", "3", "4", "5+"];
 
   useEffect(() => {
-    const getNewCards = async () => {
-      const apiURL = "https://api.magicthegathering.io/v1/cards?pageSize=50&random=true";
-      const response = await fetch(apiURL);
-      const json = await response.json();
-      const cards = json.cards;
-      // update the cards json
-      setCards(prevJson => ({
-        ...prevJson,
-        cards
-      }));
-      originalCards.current = cards; // save this to be used during filters
-    }
     getNewCards().catch(console.error);
   }, [])
+
+  const getNewCards = async () => {
+    const apiURL = "https://api.magicthegathering.io/v1/cards?pageSize=50&random=true";
+    const response = await fetch(apiURL);
+    const json = await response.json();
+    const cards = json.cards;
+    // update the cards json
+    setCards(prevJson => ({
+      ...prevJson,
+      cards
+    }));
+    originalCards.current = cards; // save this to be used during filters
+  }
 
   const calcCards = (type) => {
     let total = 0;
@@ -74,19 +70,30 @@ const App = () => {
     }
 
     updateCardsDisplay();
-    const filterSearch = filter.search.length !== 0 ? 
-      originalCards.current.filter((card) => card.name.toLowerCase().indexOf(filter.search) !== -1) :
-      originalCards.current;
-      setCards((prevJson) => ({
-        ...prevJson,
-        cards: filterSearch
-      }))
-
   }
   const updateCardsDisplay = () => {
-  }
-  console.log(filter);
+    // apply search filter
+    let filterSearch = filter.search.length !== 0 ? 
+      originalCards.current.filter((card) => 
+      card.name.toLowerCase().indexOf(filter.search) !== -1) :
+      originalCards.current;
 
+    // apply type filter
+    filterSearch = filter.cardType.toLowerCase() !== "all" ? filterSearch.filter((card) => 
+      card.type.toLowerCase().indexOf(filter.cardType) !== -1) : filterSearch;
+
+    // apply power filter
+    // (card.power >= filter.power || card.power === null) &&
+    //   card.toughness >= filter.tough || card.toughness === null)
+
+    // apply toughness filter
+    
+    setCards((prevJson) => ({
+      ...prevJson,
+      cards: filterSearch
+    }))
+
+  }
 
   return (
     <>
@@ -125,7 +132,7 @@ const App = () => {
           label="Minimum Power"
           options={bubbleOptions}
           type="power"
-          active={activeIndex.pow}
+          active={filter.power}
           handleClick={handleFilterChange}
           classes="filter"/>
         
@@ -133,7 +140,7 @@ const App = () => {
           label="Minimum Toughness"
           options={bubbleOptions}
           type="tough"
-          active={activeIndex.tough}
+          active={filter.tough}
           handleClick={handleFilterChange}
           classes="filter"/>
       </div>
