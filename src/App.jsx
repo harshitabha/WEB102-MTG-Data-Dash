@@ -80,13 +80,18 @@ const App = () => {
 
     // apply type filter
     filterSearch = filter.cardType.toLowerCase() !== "all" ? filterSearch.filter((card) => 
-      card.type.toLowerCase().indexOf(filter.cardType) !== -1) : filterSearch;
-
+      card.type.toLowerCase().indexOf(filter.cardType) !== -1)
+      : filterSearch;
+      
     // apply power filter
-    // (card.power >= filter.power || card.power === null) &&
-    //   card.toughness >= filter.tough || card.toughness === null)
-
+    filterSearch = filter.power !== 0 ? filterSearch.filter((card) => 
+      card.power >= filter.power)
+      : filterSearch;
+      
     // apply toughness filter
+    filterSearch = filter.tough !== 0 ? filterSearch.filter((card) => 
+      card.toughness >= filter.tough)
+      : filterSearch;
     
     setCards((prevJson) => ({
       ...prevJson,
