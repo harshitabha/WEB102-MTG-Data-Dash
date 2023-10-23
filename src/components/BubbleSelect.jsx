@@ -2,7 +2,6 @@
 import "./BubbleSelect.css"
 
 const BubbleSelect = (props) => {
-    console.log(`Active index ${props.type}: ${props.active}`)
     return (
         <div className={`bselect-container ${props.classes}`}>
             <label htmlFor="bubbles" className="filter-label">{props.label} </label>

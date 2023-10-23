@@ -23,6 +23,41 @@ const App = () => {
     getNewCards().catch(console.error);
   }, [])
 
+  // update if filter is updated
+  useEffect(() => {
+    const updateCardsDisplay = () => {
+      // apply search filter
+      let filterSearch = filter.search.length !== 0 ? 
+        originalCards.current.filter((card) => 
+        card.name.toLowerCase().indexOf(filter.search) !== -1) :
+        originalCards.current;
+  
+      // apply type filter
+      filterSearch = filter.cardType.toLowerCase() !== "all" ? filterSearch.filter((card) => 
+        card.type.toLowerCase().indexOf(filter.cardType) !== -1)
+        : filterSearch;
+        
+      // apply power filter
+      filterSearch = filter.power !== 0 ? filterSearch.filter((card) => 
+        card.power >= filter.power)
+        : filterSearch;
+        
+      // apply toughness filter
+      filterSearch = filter.tough !== 0 ? filterSearch.filter((card) => 
+        card.toughness >= filter.tough)
+        : filterSearch;
+      
+      setCards((prevJson) => ({
+        ...prevJson,
+        cards: filterSearch
+      }))
+  
+    }
+
+    updateCardsDisplay();
+
+  }, [filter])
+
   const getNewCards = async () => {
     const apiURL = "https://api.magicthegathering.io/v1/cards?pageSize=50&random=true";
     const response = await fetch(apiURL);
@@ -68,36 +103,6 @@ const App = () => {
         [type]: name.slice(-1),
       }));
     }
-
-    updateCardsDisplay();
-  }
-  const updateCardsDisplay = () => {
-    // apply search filter
-    let filterSearch = filter.search.length !== 0 ? 
-      originalCards.current.filter((card) => 
-      card.name.toLowerCase().indexOf(filter.search) !== -1) :
-      originalCards.current;
-
-    // apply type filter
-    filterSearch = filter.cardType.toLowerCase() !== "all" ? filterSearch.filter((card) => 
-      card.type.toLowerCase().indexOf(filter.cardType) !== -1)
-      : filterSearch;
-      
-    // apply power filter
-    filterSearch = filter.power !== 0 ? filterSearch.filter((card) => 
-      card.power >= filter.power)
-      : filterSearch;
-      
-    // apply toughness filter
-    filterSearch = filter.tough !== 0 ? filterSearch.filter((card) => 
-      card.toughness >= filter.tough)
-      : filterSearch;
-    
-    setCards((prevJson) => ({
-      ...prevJson,
-      cards: filterSearch
-    }))
-
   }
 
   return (
