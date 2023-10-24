@@ -53,6 +53,20 @@
   border-radius: 5px;
 }
 
+.refreshBtn {
+  margin: 5px;
+}
+
+.icon {
+  height: 18px;
+}
+
+.refresh-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: fit-content;
+}
 
 ::-webkit-scrollbar {
   width: 15px;

@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRotateRight } from '@fortawesome/free-solid-svg-icons'
 
 import "./App.css";
 import Header from "./components/Header";
@@ -34,9 +36,14 @@ const App = () => {
         originalCards.current;
   
       // apply type filter
-      filterSearch = filter.cardType.toLowerCase() !== "all" ? filterSearch.filter((card) => 
-        card.type.toLowerCase().indexOf(filter.cardType) !== -1)
-        : filterSearch;
+      if (filter.cardType === "other") {
+        filterSearch = filterSearch.filter((card) => 
+          card.type.toLowerCase().indexOf("creature") === -1 &&
+          card.type.toLowerCase().indexOf("sorcery") === -1 &&
+          card.type.toLowerCase().indexOf("enchantment") === -1);
+      } else if (filter.cardType !== "all") {
+        filterSearch = filterSearch.filter((card) => card.type.toLowerCase().indexOf(filter.cardType) !== -1);
+      }
         
       // apply power filter
       filterSearch = filter.power !== 0 ? filterSearch.filter((card) => 
@@ -57,7 +64,7 @@ const App = () => {
 
     if (cardsInfo) updateCardsDisplay();
 
-  }, [filter, cardsInfo])
+  }, [filter])
 
   const getNewCards = async () => {
     const apiURL = "https://api.magicthegathering.io/v1/cards?pageSize=50&random=true";
@@ -76,7 +83,11 @@ const App = () => {
     let total = 0;
     if (cardsInfo) {
       for(let t = 0; t < cardsInfo.cards.length; t++) {
-        if (cardsInfo.cards[t].type.indexOf(type) != -1) total++;
+        if (type === "other" &&
+          cardsInfo.cards[t].type.toLowerCase().indexOf("creature") === -1 &&
+          cardsInfo.cards[t].type.toLowerCase().indexOf("sorcery") === -1 &&
+          cardsInfo.cards[t].type.toLowerCase().indexOf("enchantment") === -1) total++;
+        else if (cardsInfo.cards[t].type.indexOf(type) != -1) total++;
       }
     }
     return total;
@@ -106,6 +117,17 @@ const App = () => {
     }
   }
 
+  const refreshCards = () => {
+    getNewCards();
+    setFilter((prevState) => ({
+      ...prevState,
+      search: "",
+      cardType: "All",
+      power: 0,
+      tough: 0
+    }));
+  }
+
   return (
     <>
       <Header 
@@ -125,6 +147,9 @@ const App = () => {
         <StatsBlock 
           type="Enchantments"
           info={calcCards('Enchantment')}/>
+        <StatsBlock 
+          type="Other"
+          info={calcCards('other')}/>
       </div>
 
       <div className="filter-container dash-elem">
@@ -132,10 +157,11 @@ const App = () => {
           <label htmlFor="selectType" className="filter-label">Card Type</label>
           <br />
           <select name="selectType" id="selectType" onChange={(e) => {handleFilterChange(e)}}>
-            <option defaultValue={"all"} className="select-option">All</option>
+            <option defaultValue={"all"} value="all" className="select-option">All</option>
             <option value="creature" className="select-option">Creature</option>
             <option value="sorcery" className="select-option">Sorcery</option>
-            <option value="echantment" className="select-option">Enchantment</option>
+            <option value="enchantment" className="select-option">Enchantment</option>
+            <option value="other" className="select-option">Other</option>
           </select>
         </div>
         
@@ -154,6 +180,13 @@ const App = () => {
           active={filter.tough}
           handleClick={handleFilterChange}
           classes="filter"/>
+
+        <div className="refresh-block filter">
+          <label htmlFor="refreshBtn filter-label">Refresh Cards</label>
+          <button className="refreshBtn" id="refreshBtn" onClick={refreshCards}>
+            <FontAwesomeIcon icon={faRotateRight} className="icon"/>
+          </button>
+        </div>  
       </div>
 
       <div className="data-body dash-elem">

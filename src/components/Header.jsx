@@ -16,7 +16,7 @@ const Header = (props) => {
                     value={props.searchVal} 
                     name="search"
                     onChange={(e) => {props.change(e)}}/>
-                <FontAwesomeIcon icon={faMagnifyingGlass} className='searchIcon'/>
+                <FontAwesomeIcon icon={faMagnifyingGlass} className='icon'/>
             </div>
         </div>
     );
