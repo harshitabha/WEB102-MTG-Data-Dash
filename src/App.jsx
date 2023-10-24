@@ -19,6 +19,7 @@ const App = () => {
 
   const bubbleOptions = ["Any", "1", "2", "3", "4", "5+"];
 
+  // original API call
   useEffect(() => {
     getNewCards().catch(console.error);
   }, [])
@@ -54,9 +55,9 @@ const App = () => {
   
     }
 
-    updateCardsDisplay();
+    if (cardsInfo) updateCardsDisplay();
 
-  }, [filter])
+  }, [filter, cardsInfo])
 
   const getNewCards = async () => {
     const apiURL = "https://api.magicthegathering.io/v1/cards?pageSize=50&random=true";
