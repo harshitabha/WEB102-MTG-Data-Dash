@@ -28,7 +28,7 @@ The following **optional** features are implemented:
 
 The following **additional** features are implemented:
 
-* [ ] List anything else that you added to improve the site's functionality!
+* I Added a Refresh button to my filters div in case the user wants to refresh the data they have
 
 ## Video Walkthrough
 
