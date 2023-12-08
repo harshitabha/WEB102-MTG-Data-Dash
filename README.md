@@ -1,4 +1,5 @@
 # Web Development Project 5 - Magic the Gathering Data Dashboard
+View this site at: <a href="https://mtg-data-dash.vercel.app/">https://mtg-data-dash.vercel.app/</a>
 
 Submitted by: Harshita Bhardwaj
 
@@ -34,17 +35,18 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='https://imgur.com/a/ILTtxDc.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<!--<img src='/public/home.png' title='Data Dashboard Home' width='' alt='Data Dashboard Home Page' />-->
+<img width="957" alt="image" src="https://github.com/harshitabha/WEB102-MTG-Data-Dash/assets/57848574/1e59d8e3-8155-4eb2-9772-54620cfb94a9">
 
 <!-- Replace this with whatever GIF tool you used! -->
 GIF created with [ScreenToGif](https://imgur.com/a/ILTtxDc)
 
 ## Notes
-For this project I ran into several challenges. Here are the challenges I faced
-* Difficulty figuring out how remove the filters from the filtered list. It was easier to figure out how to remove all the filters but to remove individual ones was difficult
-* What url parameters I had to use in order to randomize the cards that are fetched every time and the number of cards fetched because the MTG API docummentation was a little confusing
-* Making sure the right state values were passed through properly because I lifted state up to the App level component
-* Figuring out the best way to organize the data in a table set up (I ended up utilizing a flexbox in order to do this)
+For this project, I ran into several challenges. Here are the challenges I faced
+* Difficulty figuring out how to remove the filters from the filtered list. It was easier to figure out how to remove all the filters but removing individual ones was difficult
+* Determining what URL parameters I had to use to randomize the cards that are fetched every time and the number of cards fetched because the MTG API documentation was a little confusing
+* Making sure the right state values were passed through properly because I lifted the state up to the App-level component
+* Figuring out the best way to organize the data in a table setup (I ended up utilizing a flexbox to do this)
 
 ## License
 
