@@ -1,5 +1,5 @@
 # Web Development Project 5 - Magic the Gathering Data Dashboard
-View this site at: <a href="https://mtg-data-dash.vercel.app/">https://mtg-data-dash.vercel.app/</a>
+View this site at: <a href="https://mtg-data-dash.vercel.app/" target="_blank">https://mtg-data-dash.vercel.app/</a>
 
 Submitted by: Harshita Bhardwaj
 
